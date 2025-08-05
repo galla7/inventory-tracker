@@ -1,0 +1,16 @@
+name: CD-Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Test Environment
+        run: echo "Deploying to Test... API Key: ${{ secrets.TEST_API_KEY }}"
