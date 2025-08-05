@@ -1,23 +1,24 @@
 ---
-- name: Configure Inventory App
+- name: Configure Inventory App (No Sudo)
   hosts: local
-  become: yes
+  gather_facts: no
 
   tasks:
-    - name: Install Python and pip
-      homebrew:
-        name: python
-        state: present
-
     - name: Install Flask
       pip:
         name: flask
+        executable: pip3
+
+    - name: Create app directory
+      file:
+        path: /Users/{{ lookup('env','USER') }}/inventory-app-deployed
+        state: directory
 
     - name: Copy app.py
       copy:
         src: ../app.py
-        dest: /usr/local/bin/app.py
+        dest: /Users/{{ lookup('env','USER') }}/inventory-app-deployed/app.py
 
     - name: Run the app
       shell: |
-        nohup python3 /usr/local/bin/app.py &
+        nohup python3 /Users/{{ lookup('env','USER') }}/inventory-app-deployed/app.py > /dev/null 2>&1 &
