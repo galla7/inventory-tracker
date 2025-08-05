@@ -1,0 +1,23 @@
+---
+- name: Configure Inventory App
+  hosts: local
+  become: yes
+
+  tasks:
+    - name: Install Python and pip
+      homebrew:
+        name: python
+        state: present
+
+    - name: Install Flask
+      pip:
+        name: flask
+
+    - name: Copy app.py
+      copy:
+        src: ../app.py
+        dest: /usr/local/bin/app.py
+
+    - name: Run the app
+      shell: |
+        nohup python3 /usr/local/bin/app.py &
