@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy to Test Environment
-        run: echo "Deploying to Test... API Key: ${{ secrets.TEST_API_KEY }}"
+        run: 'echo "Deploying to Test... API Key: ${{ secrets.TEST_API_KEY }}"'
