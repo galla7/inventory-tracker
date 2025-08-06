@@ -1,21 +1,12 @@
-name: CD-Prod
-
+name: CD Prod
 on:
-  push:
-    branches:
-      - main   # Or 'prod' if you use a separate prod branch
+  workflow_dispatch:
 
 jobs:
-  deploy-prod:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Run production deployment script
-        env:
-          PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
-        run: |
-          chmod +x ./deploy-prod.sh
-          ./deploy-prod.sh --api-key "$PROD_API_KEY"
+      - name: Deploy to PROD
+        run: 'echo "Deploying to PROD... API Key: ${{ secrets.PROD_API_KEY }}"'
