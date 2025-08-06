@@ -1,8 +1,59 @@
 <!DOCTYPE html>
-<html>
-<head><title>Inventory Tracker</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InvenCI - Inventory Tracker</title>
+    <style>
+        body { font-family: Arial; background: #f9f9f9; padding: 30px; }
+        h1 { color: #333; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; }
+        form { margin-top: 20px; }
+        input[type="text"], input[type="number"] {
+            padding: 8px; margin-right: 10px;
+        }
+        select { padding: 8px; margin-right: 10px; }
+        button { padding: 8px 16px; background-color: #4CAF50; color: white; border: none; }
+        .summary { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
 <body>
-    <h1>Inventory System Home</h1>
-    <p>This is a demo project for CI/CD and Ansible</p>
+    <h1>InvenCI – Inventory Tracker</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="item_name" placeholder="Item name" required>
+        <input type="number" name="item_qty" placeholder="Quantity" required>
+        <input type="text" name="item_category" placeholder="Category">
+        <button type="submit">Add Item</button>
+    </form>
+
+    <div class="summary">
+        Total Items in Inventory: {{ total }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.category or 'N/A' }}</td>
+                <td>{{ item.date_added.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td><a href="{{ url_for('delete_item', item_id=item.id) }}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
