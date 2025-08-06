@@ -1,7 +1,7 @@
 name: CD-Prod
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Manual trigger from GitHub UI
 
 jobs:
   deploy-prod:
@@ -11,5 +11,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to Production
-        run: 'echo Deploying to PROD... API Key: ${{ secrets.PROD_API_KEY }}'
+      - name: Set up Python  # optional, if your deployment uses Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies  # optional, adjust as needed
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run production deployment script
+        env:
+          PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+        run: |
+          chmod +x ./deploy-prod.sh
+          ./deploy-prod.sh --api-key "$PROD_API_KEY"
