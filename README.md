@@ -1,4 +1,4 @@
-# 📦 Inventory Tracker - CI/CD + Ansible
+# 📦 InvenCI(Inventory Tracker) - CI/CD + Ansible
 
 ## ✅ Tech Stack
 - Python + Flask app
